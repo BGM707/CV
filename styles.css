@@ -19,6 +19,26 @@ body {
     line-height: 1.6;
 }
 
+/* Loader Styles */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--primary-color);
+    font-size: 2rem;
+    z-index: 9999;
+}
+
+.loader.hidden {
+    display: none;
+}
+
 /* Navbar Styles */
 .navbar {
     background-color: rgba(63, 132, 222, 0.95) !important;
@@ -129,6 +149,7 @@ body {
     border: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
+    text-align: center;
 }
 
 .card:hover {
@@ -136,8 +157,18 @@ body {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-.card-img-overlay {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
 }
 
 /* Button Styles */
@@ -214,22 +245,6 @@ body {
     }
 }
 
-/* Loader Styles */
-.loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--primary-color);
-    font-size: 2rem;
-    z-index: 9999;
-}
-
 /* Modal Styles */
 .modal {
     display: none;
@@ -244,15 +259,85 @@ body {
     z-index: 10000;
 }
 
+.modal.show {
+    display: flex;
+}
+
 .modal-content {
     background: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.modal-content label {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.modal-content .form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem; /* Aumenta el tamaño de la fuente para mejor visibilidad */
+    font-weight: bold; /* Hace que el texto sea más grueso */
+}
+
+.modal-content .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+    border: 1px solid var(--accent-color);
+}
+
+.modal-content .btn-custom {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    border: none;
+    margin-top: 20px;
+    font-size: 1.2rem; /* Aumenta el tamaño de la fuente para mejor visibilidad */
+    font-weight: bold; /* Hace que el texto sea más grueso */
+}
+
+.modal-content .btn-custom:hover {
+    background-color: #ff574f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
+}
+
+#quotation-result h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#quotation-result p {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    font-weight: bold; /* Hace que el texto sea más grueso */
 }
 
 .close-modal {
     cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
 }
 
 /* Scroll to Top Button Styles */
@@ -310,11 +395,11 @@ body {
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1.2rem;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
@@ -324,7 +409,7 @@ body {
     .nav-link {
         margin: 0.25rem 0;
     }
-    
+
     .social-icons a {
         width: 35px;
         height: 35px;
@@ -373,17 +458,6 @@ body {
     visibility: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.whatsapp-tooltip::before {
-    content: '';
-    position: absolute;
-    left: -8px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 8px 8px 8px 0;
-    border-style: solid;
-    border-color: transparent var(--primary-color) transparent transparent;
 }
 
 .whatsapp-float:hover .whatsapp-tooltip {

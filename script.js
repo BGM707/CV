@@ -1,19 +1,18 @@
-// DOM Content Loaded Event
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all main functions
     initializeAOS();
     initializeNavbar();
     initializeSmoothScroll();
     initializeContactForm();
     initializeTypeWriter();
     initializeProjectFilters();
-    initializeLoader(); // New loader initialization
-    initializeModal(); // New modal initialization
-    initializeScrollToTop(); // New scroll to top button initialization
-    initializeThemeToggle(); // Ensure theme toggle is called
+    initializeLazyLoading();
+    initializeLoader();
+    initializeModal();
+    initializeScrollToTop();
+    initializeThemeToggle();
+    initializeQuotationCalculator();
 });
 
-// Initialize AOS (Animate on Scroll)
 function initializeAOS() {
     AOS.init({
         duration: 1000,
@@ -23,24 +22,20 @@ function initializeAOS() {
     });
 }
 
-// Navbar Functionality
 function initializeNavbar() {
     const navbar = document.querySelector('.navbar');
     const navLinks = document.querySelectorAll('.nav-link');
-    
-    // Navbar scroll effect
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-        
-        // Update active nav link based on scroll position
+
         updateActiveNavLink();
     });
 
-    // Collapse navbar on mobile after click
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             const navbarCollapse = document.querySelector('.navbar-collapse');
@@ -51,13 +46,12 @@ function initializeNavbar() {
     });
 }
 
-// Update active navigation link based on scroll position
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     let current = '';
-    
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
@@ -74,7 +68,6 @@ function updateActiveNavLink() {
     });
 }
 
-// Smooth Scrolling
 function initializeSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -92,26 +85,22 @@ function initializeSmoothScroll() {
     });
 }
 
-// Contact Form Handling
 function initializeContactForm() {
     const form = document.querySelector('.contact-form');
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // Get form data
+
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
-            
-            // Simple form validation
+
             if (!validateForm(data)) {
                 showNotification('Please fill in all fields correctly', 'error');
                 return;
             }
 
-            // Simulate form submission
             try {
-                await simulateFormSubmission(data);
+                await sendEmail(data);
                 showNotification('Message sent successfully!', 'success');
                 form.reset();
             } catch (error) {
@@ -121,46 +110,49 @@ function initializeContactForm() {
     }
 }
 
-// Form Validation
+async function sendEmail(data) {
+    const response = await fetch('http://localhost:3000/send-sms', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    return response.text();
+}
+
 function validateForm(data) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+    const phoneRegex = /^\d{10}$/; // Ajusta según el formato de teléfono de tu país
+
     if (!data.name || data.name.length < 2) return false;
     if (!data.email || !emailRegex.test(data.email)) return false;
+    if (!data.phone || !phoneRegex.test(data.phone)) return false;
     if (!data.message || data.message.length < 10) return false;
-    
+
     return true;
 }
 
-// Simulate form submission (replace with actual API call)
-function simulateFormSubmission(data) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Form submitted:', data);
-            resolve();
-        }, 1000);
-    });
-}
-
-// Notification System
 function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
-    
+
     document.body.appendChild(notification);
-    
-    // Trigger animation
+
     setTimeout(() => notification.classList.add('show'), 100);
-    
-    // Remove notification
+
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
 
-// Typewriter effect for hero section
 function initializeTypeWriter() {
     const text = document.querySelector('.hero-subtitle');
     if (text) {
@@ -168,10 +160,10 @@ function initializeTypeWriter() {
         let wordIndex = 0;
         let letterIndex = 0;
         let isDeleting = false;
-        
+
         function type() {
             const currentWord = words[wordIndex];
-            
+
             if (isDeleting) {
                 text.textContent = currentWord.substring(0, letterIndex - 1);
                 letterIndex--;
@@ -179,37 +171,33 @@ function initializeTypeWriter() {
                 text.textContent = currentWord.substring(0, letterIndex + 1);
                 letterIndex++;
             }
-            
+
             if (!isDeleting && letterIndex === currentWord.length) {
                 setTimeout(() => isDeleting = true, 1500);
             } else if (isDeleting && letterIndex === 0) {
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
             }
-            
+
             const typingSpeed = isDeleting ? 100 : 200;
             setTimeout(type, typingSpeed);
         }
-        
+
         type();
     }
 }
 
-// Project Filtering System
 function initializeProjectFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projects = document.querySelectorAll('.card');
-    
+
     if (filterButtons.length) {
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const filter = button.dataset.filter;
-                
-                // Update active button
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
-                
-                // Filter projects
+
                 projects.forEach(project => {
                     const projectType = project.dataset.type;
                     if (filter === 'all' || filter === projectType) {
@@ -225,10 +213,9 @@ function initializeProjectFilters() {
     }
 }
 
-// Lazy Loading for Images
-document.addEventListener('DOMContentLoaded', () => {
+function initializeLazyLoading() {
     const lazyImages = document.querySelectorAll('img[data-src]');
-    
+
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -239,74 +226,69 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    
-    lazyImages.forEach(img => imageObserver.observe(img));
-});
 
-// Dark/Light Theme Toggle
+    lazyImages.forEach(img => imageObserver.observe(img));
+}
+
 function initializeThemeToggle() {
     const themeToggle = document.querySelector('.theme-toggle');
+    const sunIcon = themeToggle.querySelector('.bi-sun-fill');
+    const moonIcon = themeToggle.querySelector('.bi-moon-fill');
+
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-theme');
-            
-            // Save preference
-            const isDarkTheme = document.body.classList.contains('light-theme');
-            localStorage.setItem('theme', isDarkTheme ? 'light' : 'dark');
+            document.body.classList.toggle('dark-theme');
+
+            const isDarkTheme = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+
+            sunIcon.style.display = isDarkTheme ? 'none' : 'inline';
+            moonIcon.style.display = isDarkTheme ? 'inline' : 'none';
         });
     }
-    
-    // Check saved preference
+
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'inline';
     }
 }
 
-// Loader Handling
 function initializeLoader() {
-    const loader = document.querySelector('.loader'); // Asegúrate de que haya un loader en tu HTML
+    const loader = document.querySelector('.loader');
     if (loader) {
         window.addEventListener('load', () => {
-            loader.classList.add('hidden'); // Asegúrate de ocultar el loader después de cargar
+            loader.classList.add('hidden');
         });
     }
 }
 
-// Modal Handling
 function initializeModal() {
-    const modal = document.querySelector('.modal'); // Modal en tu HTML
-    const openModalButton = document.querySelector('.open-modal'); // Botón para abrir el modal
-    const closeModalButton = document.querySelector('.close-modal'); // Botón para cerrar el modal
+    const modal = document.querySelector('.modal');
+    const closeModal = document.querySelector('.close-modal');
 
-    if (openModalButton) {
-        openModalButton.addEventListener('click', () => {
-            modal.classList.add('show'); // Añade clase para mostrar
-        });
-    }
-
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.remove('show'); // Quita clase para ocultar
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('show');
         });
     }
 
     window.addEventListener('click', (event) => {
         if (event.target === modal) {
-            modal.classList.remove('show'); // Cierra modal si se hace clic fuera de él
+            modal.classList.remove('show');
         }
     });
 }
 
-// Scroll to Top Button
 function initializeScrollToTop() {
-    const scrollToTopBtn = document.querySelector('.scroll-to-top'); // Asegúrate de tener este botón
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add('show'); // Muestra el botón
+            scrollToTopBtn.classList.add('show');
         } else {
-            scrollToTopBtn.classList.remove('show'); // Oculta el botón
+            scrollToTopBtn.classList.remove('show');
         }
     });
 
@@ -316,4 +298,39 @@ function initializeScrollToTop() {
             behavior: 'smooth'
         });
     });
+}
+
+function initializeQuotationCalculator() {
+    const options = document.querySelectorAll('.option-card');
+    const totalCost = document.querySelector('#total-cost');
+    const totalTime = document.querySelector('#total-time');
+
+    let cost = 0;
+    let time = 0;
+
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            const selected = option.classList.toggle('selected');
+            const optionCost = parseInt(option.dataset.cost);
+            const optionTime = parseInt(option.dataset.time);
+
+            if (selected) {
+                cost += optionCost;
+                time += optionTime;
+            } else {
+                cost -= optionCost;
+                time -= optionTime;
+            }
+
+            totalCost.textContent = cost;
+            totalTime.textContent = time;
+        });
+    });
+}
+
+function showModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.classList.add('show');
+    }
 }
