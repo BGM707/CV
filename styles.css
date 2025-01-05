@@ -3,6 +3,31 @@
     --secondary-color: #b1bccb;
     --accent-color: #ff3b30;
     --text-color: #f0f1f2;
+    --color-blue: #007bff;
+    --color-green: #28a745;
+    --color-red: #dc3545;
+    --color-yellow: #ffc107;
+    --color-purple: #6f42c1;
+    --color-blue-light: #cce5ff;
+    --color-green-light: #90ee90;
+    --color-red-light: #ffb6c1;
+    --color-yellow-light: #fff59d;
+    --color-purple-light: #e0bbe4;
+    --color-blue-dark: #0056b3;
+    --color-green-dark: #1b753c;
+    --color-red-dark: #cc0000;
+    --color-yellow-dark: #ff8c00;
+    --color-purple-dark: #4a235a;
+    --color-blue-text: #00008b;
+    --color-green-text: #006400;
+    --color-red-text: #8b0000;
+    --color-yellow-text: #8b8b00;
+    --color-purple-text: #4b0082;
+    --color-blue-bg: #add8e6;
+    --color-green-bg: #98fb98;
+    --color-red-bg: #ffb6c1;
+    --color-yellow-bg: #fffacd;
+    --color-purple-bg: #e6e6fa;
 }
 
 * {
@@ -29,10 +54,51 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     color: var(--primary-color);
-    font-size: 2rem;
     z-index: 9999;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.loader-content {
+    max-width: 90%;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.loader p {
+    margin: 0.5rem 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--primary-color);
+    animation: fadeText 3s infinite;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeText {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .loader.hidden {
@@ -72,7 +138,6 @@ body {
     width: 100%;
     left: 0;
 }
-
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
@@ -142,7 +207,6 @@ body {
     transform: translateY(30px);
     animation: fadeInUp 0.8s ease 0.2s forwards; /* Animación más rápida */
 }
-
 /* Card Styles */
 .card {
     background-color: rgba(255, 255, 255, 0.8);
@@ -257,6 +321,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 10000;
+    padding: 20px; /* Añade padding para que el contenido esté centrado */
 }
 
 .modal.show {
@@ -268,8 +333,10 @@ body {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    width: 80%;
+    width: 90%;
     max-width: 600px;
+    max-height: 80vh; /* Asegura que no sea más alto que la ventana */
+    overflow-y: auto; /* Habilita el scroll vertical si es necesario */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -293,6 +360,8 @@ body {
     margin-bottom: 1rem;
     font-size: 1.2rem; /* Aumenta el tamaño de la fuente para mejor visibilidad */
     font-weight: bold; /* Hace que el texto sea más grueso */
+    width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye el padding y el border en el ancho total */
 }
 
 .modal-content .form-control:focus {
@@ -311,6 +380,8 @@ body {
     margin-top: 20px;
     font-size: 1.2rem; /* Aumenta el tamaño de la fuente para mejor visibilidad */
     font-weight: bold; /* Hace que el texto sea más grueso */
+    width: 100%; /* Asegura que el botón ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye el padding y el border en el ancho total */
 }
 
 .modal-content .btn-custom:hover {
@@ -340,6 +411,63 @@ body {
     font-size: 20px;
 }
 
+/* Color Palette Modal Styles */
+.color-palette-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px; /* Añade padding para que el contenido esté centrado */
+}
+
+.color-palette-modal.show {
+    display: flex;
+}
+
+.color-palette-modal .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.color-palette-modal .modal-content h2 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.color-palette-modal .color-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.color-palette-modal .color-option {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.color-palette-modal .color-option:hover {
+    transform: scale(1.1);
+}
+
 /* Scroll to Top Button Styles */
 .scroll-to-top {
     position: fixed;
@@ -365,6 +493,8 @@ body {
 
 .scroll-to-top:hover {
     background: #ff574f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
 }
 
 /* Dark Theme Styles */
@@ -403,6 +533,51 @@ body {
     .section-title {
         font-size: 2rem;
     }
+
+    .modal-content {
+        width: 95%;
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-content label {
+        font-size: 1rem;
+    }
+
+    .modal-content .form-control {
+        font-size: 1rem;
+    }
+
+    .modal-content .btn-custom {
+        font-size: 1rem;
+    }
+
+    #quotation-result h3 {
+        font-size: 1.2rem;
+    }
+
+    #quotation-result p {
+        font-size: 1rem;
+    }
+
+    .close-modal {
+        font-size: 1.5rem;
+    }
+
+    .color-palette-modal {
+        width: 100%;
+    }
+
+    .color-palette-modal .color-options {
+        flex-direction: column;
+    }
+
+    .color-palette-modal .color-option {
+        width: 80px;
+        height: 80px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -413,6 +588,65 @@ body {
     .social-icons a {
         width: 35px;
         height: 35px;
+    }
+
+    .modal-content {
+        width: 100%;
+    }
+
+    .modal-content h2 {
+        font-size: 1.2rem;
+    }
+
+    .modal-content label {
+        font-size: 0.9rem;
+    }
+
+    .modal-content .form-control {
+        font-size: 0.9rem;
+    }
+
+    .modal-content .btn-custom {
+        font-size: 0.9rem;
+    }
+
+    #quotation-result h3 {
+        font-size: 1rem;
+    }
+
+    #quotation-result p {
+        font-size: 0.9rem;
+    }
+
+    .close-modal {
+        font-size: 1.2rem;
+    }
+
+    .color-palette-modal {
+        width: 100%;
+    }
+
+    .color-palette-modal .color-options {
+        flex-direction: row;
+    }
+
+    .color-palette-modal .color-option {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .whatsapp-float {
+        width: 55px;
+        height: 55px;
+        bottom: 20px;
+        left: 20px;
+        font-size: 30px;
+    }
+
+    .whatsapp-tooltip {
+        display: none; /* Oculta el tooltip en dispositivos móviles */
     }
 }
 
@@ -439,7 +673,7 @@ body {
 }
 
 .whatsapp-float:hover {
-    background-color: #128C7E;
+    background: #128C7E;
     transform: scale(1.1);
 }
 
@@ -479,23 +713,4 @@ body {
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
     }
-}
-
-/* Ajustes responsivos */
-@media screen and (max-width: 767px) {
-    .whatsapp-float {
-        width: 55px;
-        height: 55px;
-        bottom: 20px;
-        left: 20px;
-        font-size: 30px;
-    }
-    .whatsapp-tooltip {
-        display: none; /* Oculta el tooltip en dispositivos móviles */
-    }
-}
-
-/* Sección de video ajustada */
-.video-arreglo {
-    height: 200px;
 }
