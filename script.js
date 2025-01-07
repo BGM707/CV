@@ -15,7 +15,147 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeLazyLoadVideo();
     initializeInfoAlerts();
     initializeCacheVideos();
+
+    // Mostrar SweetAlert al cargar la página
+    Swal.fire({
+        title: 'Welcome!',
+        html: `
+            <p>Here is a brief explanation of some technologies I use:</p>
+            <ul>
+                <li><strong>JavaScript</strong>: A programming language primarily used to make web pages interactive.</li>
+                <li><strong>HTML</strong>: The standard markup language for creating and designing web pages.</li>
+                <li><strong>CSS</strong>: The language used to describe the presentation of a document written in HTML.</li>
+                <li><strong>Python</strong>: An interpreted programming language whose philosophy emphasizes code readability.</li>
+                <li><strong>Django</strong>: A high-level web framework for Python that encourages rapid development and clean, pragmatic design.</li>
+                <li><strong>React</strong>: A JavaScript library for building user interfaces.</li>
+            </ul>
+            <p>Enjoy exploring my website!</p>
+        `,
+        confirmButtonText: 'Got it!'
+    });
+
+    // Agregar animación hover para agrandar el card
+    const cards = document.querySelectorAll('.hover-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseover', function () {
+            this.style.transform = 'scale(1.05)';
+            this.style.transition = 'transform 0.3s';
+        });
+        card.addEventListener('mouseout', function () {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Manejar clics en los íconos de información
+    const infoBtns = document.querySelectorAll('.info-btn');
+    infoBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const type = this.getAttribute('data-type');
+            let title, text, examples;
+            switch (type) {
+                case 'inputs':
+                    title = 'What is an Input?';
+                    text = 'An input is a field where users can enter information. For example: contact forms, search fields, or registration forms.';
+                    examples = 'Example: A lawyer needs a form for clients to request appointments (simple form) vs a complete legal case management system (complex system).';
+                    break;
+                case 'outputs':
+                    title = 'What is an Output?';
+                    text = 'An output is any information that the system displays to the user, such as search results, listings, or reports.';
+                    examples = 'Example: A musician wants to show their upcoming events (simple) vs a ticket sales system with sales reports (complex).';
+                    break;
+                case 'layouts':
+                    title = 'What is a Layout?';
+                    text = 'A layout is the design and visual structure of a page. Each different section of your site may require a distinct layout.';
+                    examples = 'Example: A home page vs a contact page vs a photo gallery.';
+                    break;
+                case 'informative':
+                    title = 'What is an Informative Page?';
+                    text = 'An informative page provides static and non-interactive information to the user.';
+                    examples = 'Example: A lawyer\'s presentation page vs a complete legal blog.';
+                    break;
+                case 'interactive':
+                    title = 'What is an Interactive Page?';
+                    text = 'An interactive page allows the user to interact with the page, such as clicking buttons, filling out forms, etc.';
+                    examples = 'Example: A simple event calendar vs a real-time booking system.';
+                    break;
+                case 'api':
+                    title = 'What is API Integration?';
+                    text = 'An API allows your site to connect with other services. For example, online payments, maps, or social networks.';
+                    examples = 'Example: Displaying a Google map vs integrating a complete payment system.';
+                    break;
+                case 'modal':
+                    title = 'What is a Modal Window?';
+                    text = 'A modal window is a pop-up window that overlays the main content of the page. It is used to display additional information or perform actions without leaving the current page.';
+                    examples = 'Example: A contact form that appears when clicking a button vs a confirmation window for deleting an item.';
+                    break;
+            }
+            showAlert(title, text, examples);
+        });
+    });
+
+    // Inicializar la carga perezosa de los videos
+    initializeLazyLoadVideo();
+
+    // Agregar evento de clic al botón en la modal de la calculadora de costos
+    const requestMeetingBtn = document.querySelector('#request-meeting-btn');
+    if (requestMeetingBtn) {
+        requestMeetingBtn.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Meeting Request!',
+                text: 'You have requested a meeting to discuss the details of your project. Please complete the contact form and we will get in touch with you as soon as possible.',
+                icon: 'info',
+                confirmButtonText: 'Understood'
+            });
+        });
+    }
+
+    // Agregar botones para exportar a PDF y Excel
+    const exportButtons = document.createElement('div');
+    exportButtons.innerHTML = `
+        <button id="export-pdf-btn" class="btn-custom">Export to PDF</button>
+        <button id="export-excel-btn" class="btn-custom">Export to Excel</button>
+    `;
+    document.body.appendChild(exportButtons);
+
+    // Agregar eventos de clic a los botones de exportación
+    document.querySelector('#export-pdf-btn').addEventListener('click', () => {
+        exportToPDF();
+        showExportSuccessAlert('PDF');
+    });
+    document.querySelector('#export-excel-btn').addEventListener('click', () => {
+        exportToExcel();
+        showExportSuccessAlert('Excel');
+    });
+
+    // Agregar evento de clic al botón de cerrar en el modal
+    const closeModalBtn = document.querySelector('#closeModalBtn');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function () {
+            const modal = document.querySelector('#quotationModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        });
+    }
 });
+
+function showAlert(title, text, examples) {
+    const alertContainer = document.getElementById('alert-container');
+    const alert = document.createElement('div');
+    alert.className = 'alert alert-info';
+    alert.innerHTML = `
+        <strong>${title}</strong><br>
+        ${text}<br>
+        <strong>Example:</strong> ${examples}
+    `;
+    alertContainer.appendChild(alert);
+
+    setTimeout(() => {
+        alert.classList.add('fade-out');
+        setTimeout(() => {
+            alert.remove();
+        }, 3000);
+    }, 5000);
+}
 
 function initializeAOS() {
     AOS.init({
@@ -170,19 +310,46 @@ function initializeTypeWriter() {
             ' フルスタック開発者', // Japanese
             ' ウェブサイトビルダー', // Japanese
             ' アプリ作成者', // Japanese
-            '앱 제작자', // Korean
-            'app-skaper', // Norwegian
-            'skaper av digital virksomhet', // Norwegian
-            'mea hana kikohoʻe pāʻoihana', // Hawaiian
-            'créateur d\'entreprise numérique', // French
-            'creador de negocios digitales', // Spanish
-            'analyste programmeur', // French
-            'Analista Programador', // Spanish
-            'Desenvolvedor FullStack', // Portuguese
-            'Desenvolvedor Python', // Portuguese
-            'Desenvolvedor IOS', // Portuguese
-            'Solucionador de Problemas', // Portuguese
-            'Criador de Sites', // Portuguese
+            'عامل تطوير ويب', // Arabic
+            'مطور بايثون', // Arabic
+            'مطور آي أو إس', // Arabic
+            'حلال مشاكل', // Arabic
+            'صانع مواقع', // Arabic
+            'Umbutho obukhulu obusebenza ngokweqile', // Zulu
+            'Umbutho wokuqala uPython', // Zulu
+            'Umbutho wokuqala uIOS', // Zulu
+            'Umbutho wokuthatha imibono', // Zulu
+            'Umbutho wokwenza iwebhusayithi', // Zulu
+            'Mimari FullStack', // Swahili
+            'Mhandisi Python', // Swahili
+            'Mhandisi IOS', // Swahili
+            'Mwathibiti wa Matatizo', // Swahili
+            'Mtengenezaji wa Tovuti', // Swahili
+            'Umbutho wobukhulu obusebenza ngokweqile', // Xhosa
+            'Umbutho wokuqala uPython', // Xhosa
+            'Umbutho wokuqala uIOS', // Xhosa
+            'Umbutho wokuthatha imibono', // Xhosa
+            'Umbutho wokwenza iwebhusayithi', // Xhosa
+            'FullStack 开发人员', // Chinese (Simplified)
+            'Python 开发人员', // Chinese (Simplified)
+            'IOS 开发人员', // Chinese (Simplified)
+            '问题解决者', // Chinese (Simplified)
+            '网站制作人', // Chinese (Simplified)
+            'FullStack 開發人員', // Chinese (Traditional)
+            'Python 開發人員', // Chinese (Traditional)
+            'IOS 開發人員', // Chinese (Traditional)
+            '問題解決者', // Chinese (Traditional)
+            '網站製作人', // Chinese (Traditional)
+            'Geliştirici FullStack', // Turkish
+            'Python Geliştirici', // Turkish
+            'IOS Geliştirici', // Turkish
+            'Problem Çözücü', // Turkish
+            'Web Sitesi Yapımcısı', // Turkish
+            'Mimari FullStack', // Kiswahili
+            'Mhandisi Python', // Kiswahili
+            'Mhandisi IOS', // Kiswahili
+            'Mwathibiti wa Matatizo', // Kiswahili
+            'Mtengenezaji wa Tovuti', // Kiswahili
             'Entwickler FullStack', // German
             'Python-Entwickler', // German
             'IOS-Entwickler', // German
@@ -203,41 +370,61 @@ function initializeTypeWriter() {
             'Разработчик IOS', // Russian
             'Решатель проблем', // Russian
             'Создатель сайтов', // Russian
-            'Geliştirici FullStack', // Turkish
-            'Python Geliştirici', // Turkish
-            'IOS Geliştirici', // Turkish
-            'Problem Çözücü', // Turkish
-            'Web Sitesi Yapımcısı', // Turkish
-            'Mimari FullStack', // Swahili
-            'Mhandisi Python', // Swahili
-            'Mhandisi IOS', // Swahili
-            'Mwathibiti wa Matatizo', // Swahili
-            'Mtengenezaji wa Tovuti', // Swahili
-            'Umbutho obukhulu obusebenza ngokweqile', // Zulu
-            'Umbutho wokuqala uPython', // Zulu
-            'Umbutho wokuqala uIOS', // Zulu
-            'Umbutho wokuthatha imibono', // Zulu
-            'Umbutho wokwenza iwebhusayithi', // Zulu
-            'מטור FullStack', // Arabic
-            'מטור Python', // Arabic
-            'מטור IOS', // Arabic
-            'حلال مشاكل', // Arabic
-            'صانع مواقع', // Arabic
-            'פיתוח מלא FullStack', // Hebrew
-            'מפתח Python', // Hebrew
-            'מפתח IOS', // Hebrew
-            'פותר בעיות', // Hebrew
-            'יוצר אתרים', // Hebrew
-            'FullStack 开发人员', // Chinese (Simplified)
-            'Python 开发人员', // Chinese (Simplified)
-            'IOS 开发人员', // Chinese (Simplified)
-            '问题解决者', // Chinese (Simplified)
-            '网站制作人', // Chinese (Simplified)
-            'FullStack 開發人員', // Chinese (Traditional)
-            'Python 開發人員', // Chinese (Traditional)
-            'IOS 開發人員', // Chinese (Traditional)
-            '問題解決者', // Chinese (Traditional)
-            '網站製作人', // Chinese (Traditional)
+            'Desenvolvedor FullStack', // Portuguese
+            'Desenvolvedor Python', // Portuguese
+            'Desenvolvedor IOS', // Portuguese
+            'Solucionador de Problemas', // Portuguese
+            'Criador de Sites', // Portuguese
+            'Développeur FullStack', // French
+            'Développeur Python', // French
+            'Développeur IOS', // French
+            'Résolveur de Problemes', // French
+            'Créateur de Sites Web', // French
+            'Desarrollador FullStack', // Spanish
+            'Desarrollador Python', // Spanish
+            'Desarrollador IOS', // Spanish
+            'Solucionador de Problemas', // Spanish
+            'Creador de Sitios Web', // Spanish
+            'Pengembang FullStack', // Indonesian
+            'Pengembang Python', // Indonesian
+            'Pengembang IOS', // Indonesian
+            'Penyelesaian Masalah', // Indonesian
+            'Pembuat Situs Web', // Indonesian
+            'Desenvolvedor FullStack', // Catalan
+            'Desenvolvedor Python', // Catalan
+            'Desenvolvedor IOS', // Catalan
+            'Resolvedor de Problemes', // Catalan
+            'Creador de Llocs Web', // Catalan
+            'FullStack-utvecklare', // Swedish
+            'Pythonutvecklare', // Swedish
+            'IOS-utvecklare', // Swedish
+            'Problemlösare', // Swedish
+            'Webbplatsbyggare', // Swedish
+            'FullStack-utvikler', // Norwegian
+            'Python-utvikler', // Norwegian
+            'IOS-utvikler', // Norwegian
+            'Problemløser', // Norwegian
+            'Websideutvikler', // Norwegian
+            'FullStack-kehittäjä', // Finnish
+            'Python-kehittäjä', // Finnish
+            'IOS-kehittäjä', // Finnish
+            'Ongelmanratkaisija', // Finnish
+            'Verkkosivusten tekijä', // Finnish
+            'FullStack fejlesztő', // Hungarian
+            'Python fejlesztő', // Hungarian
+            'IOS fejlesztő', // Hungarian
+            'Problémamegoldó', // Hungarian
+            'Webhely fejlesztő', // Hungarian
+            'FullStack разработчик', // Ukrainian
+            'Python розробник', // Ukrainian
+            'IOS розробник', // Ukrainian
+            'Вирішувач проблем', // Ukrainian
+            'Створювач веб-сайтів', // Ukrainian
+            'FullStack developer', // English
+            'Python developer', // English
+            'IOS developer', // English
+            'Problem solver', // English
+            'Website maker', // English
         ];
         let wordIndex = 0;
         let letterIndex = 0;
@@ -377,9 +564,9 @@ function initializeColorPalette() {
 function initializeLoader() {
     const loader = document.querySelector('.loader');
     if (loader) {
-        window.addEventListener('load', () => {
+        setTimeout(() => {
             loader.classList.add('hidden');
-        });
+        }, 5000); // 5000 milisegundos = 5 segundos
     }
 }
 
@@ -422,45 +609,52 @@ function initializeScrollToTop() {
 function initializeQuotationCalculator() {
     const descriptions = {
         inputs: {
-            title: "¿Qué es un Input?",
-            desc: "Un input es un campo donde los usuarios pueden ingresar información. Por ejemplo: formularios de contacto, campos de búsqueda, o formularios de registro.",
-            examples: "Ejemplo: Un abogado necesita un formulario para que sus clientes soliciten citas (formulario simple) vs un sistema completo de gestión de casos legales (sistema complejo).",
+            title: "What is an Input?",
+            desc: "An input is a field where users can enter information. For example: contact forms, search fields, or registration forms.",
+            examples: "Example: A lawyer needs a form for clients to request appointments (simple form) vs a complete legal case management system (complex system).",
             cost: 50,
             time: 2
         },
         outputs: {
-            title: "¿Qué es un Output?",
-            desc: "Un output es cualquier información que el sistema muestra al usuario, como resultados de búsqueda, listados o reportes.",
-            examples: "Ejemplo: Un músico que quiere mostrar sus próximos eventos (simple) vs un sistema de venta de boletos con reportes de ventas (complejo).",
+            title: "What is an Output?",
+            desc: "An output is any information that the system displays to the user, such as search results, listings, or reports.",
+            examples: "Example: A musician wants to show their upcoming events (simple) vs a ticket sales system with sales reports (complex).",
             cost: 60,
             time: 2
         },
         layouts: {
-            title: "¿Qué es un Layout?",
-            desc: "Un layout es el diseño y estructura visual de una página. Cada sección diferente de tu sitio puede requerir un layout distinto.",
-            examples: "Ejemplo: Una página de inicio vs una página de contacto vs una galería de fotos.",
+            title: "What is a Layout?",
+            desc: "A layout is the design and visual structure of a page. Each different section of your site may require a distinct layout.",
+            examples: "Example: A home page vs a contact page vs a photo gallery.",
             cost: 100,
             time: 2
         },
         informative: {
-            title: "Páginas Informativas",
-            desc: "Páginas que muestran información estática como 'Acerca de', 'Servicios', o 'Contacto'.",
-            examples: "Ejemplo: La página de presentación de un abogado vs un blog legal completo.",
+            title: "Informative Pages",
+            desc: "Pages that display static information such as 'About', 'Services', or 'Contact'.",
+            examples: "Example: A lawyer's presentation page vs a complete legal blog.",
             cost: 150,
             time: 2
         },
         interactive: {
-            title: "Páginas Interactivas",
-            desc: "Páginas donde los usuarios pueden interactuar, como formularios, calendarios o sistemas de reserva.",
-            examples: "Ejemplo: Un calendario de eventos simple vs un sistema de reservas en tiempo real.",
+            title: "Interactive Pages",
+            desc: "Pages where users can interact, such as forms, calendars, or booking systems.",
+            examples: "Example: A simple event calendar vs a real-time booking system.",
             cost: 200,
             time: 2
         },
         api: {
-            title: "Integración de APIs",
-            desc: "Una API permite que tu sitio se conecte con otros servicios. Por ejemplo, pagos en línea, mapas, o redes sociales.",
-            examples: "Ejemplo: Mostrar un mapa de Google vs integrar un sistema completo de pagos.",
+            title: "API Integration",
+            desc: "An API allows your site to connect with other services. For example, online payments, maps, or social networks.",
+            examples: "Example: Displaying a Google map vs integrating a complete payment system.",
             cost: 300,
+            time: 2
+        },
+        modal: {
+            title: "Modal Window Integration",
+            desc: "A modal window is a pop-up window that overlays the main content of the page. It is used to display additional information or perform actions without leaving the current page.",
+            examples: "Example: A contact form that appears when clicking a button vs a confirmation window for deleting an item.",
+            cost: 150,
             time: 2
         }
     };
@@ -471,7 +665,8 @@ function initializeQuotationCalculator() {
         layouts: 0,
         informative: 0,
         interactive: 0,
-        api: 0
+        api: 0,
+        modal: 0
     };
 
     const totalCost = document.querySelector('#estimated-cost');
@@ -494,12 +689,12 @@ function initializeQuotationCalculator() {
         // Show recommendation based on total
         if (cost > 5000) {
             Swal.fire({
-                title: '¡Proyecto Complejo!',
-                text: 'Tu proyecto parece ser bastante complejo. ¿Te gustaría agendar una reunión para discutir los detalles?',
+                title: 'Complex Project!',
+                text: 'Your project seems quite complex. Would you like to schedule a meeting to discuss the details?',
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonText: 'Agendar Reunión',
-                cancelButtonText: 'Seguir Cotizando'
+                confirmButtonText: 'Schedule Meeting',
+                cancelButtonText: 'Continue Quoting'
             });
         }
     }
@@ -514,10 +709,10 @@ function initializeQuotationCalculator() {
             title: descriptions[type].title,
             html: `
               <p>${descriptions[type].desc}</p>
-              <p class="mt-3"><strong>Ejemplo:</strong><br>${descriptions[type].examples}</p>
+              <p class="mt-3"><strong>Example:</strong><br>${descriptions[type].examples}</p>
             `,
             icon: 'info',
-            confirmButtonText: 'Entendido'
+            confirmButtonText: 'Understood'
         });
     }
 
@@ -555,34 +750,53 @@ function initializeLazyLoadVideo() {
 function initializeInfoAlerts() {
     const descriptions = {
         inputs: {
-            title: "¿Qué es un Input?",
-            desc: "Un input es un campo donde los usuarios pueden ingresar información. Por ejemplo: formularios de contacto, campos de búsqueda, o formularios de registro.",
-            examples: "Ejemplo: Un abogado necesita un formulario para que sus clientes soliciten citas (formulario simple) vs un sistema completo de gestión de casos legales (sistema complejo)."
+            title: "What is an Input?",
+            desc: "An input is a field where users can enter information. For example: contact forms, search fields, or registration forms.",
+            examples: "Example: A lawyer needs a form for clients to request appointments (simple form) vs a complete legal case management system (complex system).",
+            cost: 50,
+            time: 2
         },
         outputs: {
-            title: "¿Qué es un Output?",
-            desc: "Un output es cualquier información que el sistema muestra al usuario, como resultados de búsqueda, listados o reportes.",
-            examples: "Ejemplo: Un músico que quiere mostrar sus próximos eventos (simple) vs un sistema de venta de boletos con reportes de ventas (complejo)."
+            title: "What is an Output?",
+            desc: "An output is any information that the system displays to the user, such as search results, listings, or reports.",
+            examples: "Example: A musician wants to show their upcoming events (simple) vs a ticket sales system with sales reports (complex).",
+            cost: 60,
+            time: 2
         },
         layouts: {
-            title: "¿Qué es un Layout?",
-            desc: "Un layout es el diseño y estructura visual de una página. Cada sección diferente de tu sitio puede requerir un layout distinto.",
-            examples: "Ejemplo: Una página de inicio vs una página de contacto vs una galería de fotos."
+            title: "What is a Layout?",
+            desc: "A layout is the design and visual structure of a page. Each different section of your site may require a distinct layout.",
+            examples: "Example: A home page vs a contact page vs a photo gallery.",
+            cost: 100,
+            time: 2
         },
         informative: {
-            title: "Páginas Informativas",
-            desc: "Páginas que muestran información estática como 'Acerca de', 'Servicios', o 'Contacto'.",
-            examples: "Ejemplo: La página de presentación de un abogado vs un blog legal completo."
+            title: "Informative Pages",
+            desc: "Pages that display static information such as 'About', 'Services', or 'Contact'.",
+            examples: "Example: A lawyer's presentation page vs a complete legal blog.",
+            cost: 150,
+            time: 2
         },
         interactive: {
-            title: "Páginas Interactivas",
-            desc: "Páginas donde los usuarios pueden interactuar, como formularios, calendarios o sistemas de reserva.",
-            examples: "Ejemplo: Un calendario de eventos simple vs un sistema de reservas en tiempo real."
+            title: "Interactive Pages",
+            desc: "Pages where users can interact, such as forms, calendars, or booking systems.",
+            examples: "Example: A simple event calendar vs a real-time booking system.",
+            cost: 200,
+            time: 2
         },
         api: {
-            title: "Integración de APIs",
-            desc: "Una API permite que tu sitio se conecte con otros servicios. Por ejemplo, pagos en línea, mapas, o redes sociales.",
-            examples: "Ejemplo: Mostrar un mapa de Google vs integrar un sistema completo de pagos."
+            title: "API Integration",
+            desc: "An API allows your site to connect with other services. For example, online payments, maps, or social networks.",
+            examples: "Example: Displaying a Google map vs integrating a complete payment system.",
+            cost: 300,
+            time: 2
+        },
+        modal: {
+            title: "Modal Window Integration",
+            desc: "A modal window is a pop-up window that overlays the main content of the page. It is used to display additional information or perform actions without leaving the current page.",
+            examples: "Example: A contact form that appears when clicking a button vs a confirmation window for deleting an item.",
+            cost: 150,
+            time: 2
         }
     };
 
@@ -593,10 +807,10 @@ function initializeInfoAlerts() {
                 title: descriptions[type].title,
                 html: `
                   <p>${descriptions[type].desc}</p>
-                  <p class="mt-3"><strong>Ejemplo:</strong><br>${descriptions[type].examples}</p>
+                  <p class="mt-3"><strong>Example:</strong><br>${descriptions[type].examples}</p>
                 `,
                 icon: 'info',
-                confirmButtonText: 'Entendido'
+                confirmButtonText: 'Understood'
             });
         });
     });
@@ -640,71 +854,78 @@ function exportToPDF() {
         layouts: document.querySelector('#layouts').value,
         informative: document.querySelector('#informative').value,
         interactive: document.querySelector('#interactive').value,
-        api: document.querySelector('#api').value
+        api: document.querySelector('#api').value,
+        modal: document.querySelector('#modal').value
     };
 
     const descriptions = {
         inputs: {
             title: "Inputs",
-            desc: "Un input es un campo donde los usuarios pueden ingresar información. Por ejemplo: formularios de contacto, campos de búsqueda, o formularios de registro.",
+            desc: "An input is a field where users can enter information. For example: contact forms, search fields, or registration forms.",
             cost: 50,
             time: 2
         },
         outputs: {
             title: "Outputs",
-            desc: "Un output es cualquier información que el sistema muestra al usuario, como resultados de búsqueda, listados o reportes.",
+            desc: "An output is any information that the system displays to the user, such as search results, listings, or reports.",
             cost: 60,
             time: 2
         },
         layouts: {
             title: "Layouts",
-            desc: "Un layout es el diseño y estructura visual de una página. Cada sección diferente de tu sitio puede requerir un layout distinto.",
+            desc: "A layout is the design and visual structure of a page. Each different section of your site may require a distinct layout.",
             cost: 100,
             time: 2
         },
         informative: {
-            title: "Páginas Informativas",
-            desc: "Páginas que muestran información estática como 'Acerca de', 'Servicios', o 'Contacto'.",
+            title: "Informative Pages",
+            desc: "Pages that display static information such as 'About', 'Services', or 'Contact'.",
             cost: 150,
             time: 2
         },
         interactive: {
-            title: "Páginas Interactivas",
-            desc: "Páginas donde los usuarios pueden interactuar, como formularios, calendarios o sistemas de reserva.",
+            title: "Interactive Pages",
+            desc: "Pages where users can interact, such as forms, calendars, or booking systems.",
             cost: 200,
             time: 2
         },
         api: {
-            title: "Integración de APIs",
-            desc: "Una API permite que tu sitio se conecte con otros servicios. Por ejemplo, pagos en línea, mapas, o redes sociales.",
+            title: "API Integration",
+            desc: "An API allows your site to connect with other services. For example, online payments, maps, or social networks.",
             cost: 300,
+            time: 2
+        },
+        modal: {
+            title: "Modal Window Integration",
+            desc: "A modal window is a pop-up window that overlays the main content of the page. It is used to display additional information or perform actions without leaving the current page.",
+            cost: 150,
             time: 2
         }
     };
 
     let yOffset = 10;
 
-    doc.text('Cotización del Proyecto', 10, yOffset);
+    doc.text('Project Quotation', 10, yOffset);
     yOffset += 10;
 
     Object.entries(formData).forEach(([key, value]) => {
         if (value > 0) {
             doc.text(`${descriptions[key].title}: ${value}`, 10, yOffset);
             yOffset += 10;
-            doc.text(`Descripción: ${descriptions[key].desc}`, 10, yOffset);
+            doc.text(`Description: ${descriptions[key].desc}`, 10, yOffset);
             yOffset += 10;
-            doc.text(`Costo: $${descriptions[key].cost * value}`, 10, yOffset);
+            doc.text(`Cost: $${descriptions[key].cost * value}`, 10, yOffset);
             yOffset += 10;
-            doc.text(`Tiempo: ${descriptions[key].time * value} días`, 10, yOffset);
+            doc.text(`Time: ${descriptions[key].time * value} days`, 10, yOffset);
             yOffset += 20;
         }
     });
 
-    doc.text(`Costo Total: $${totalCost}`, 10, yOffset);
+    doc.text(`Total Cost: $${totalCost}`, 10, yOffset);
     yOffset += 10;
-    doc.text(`Tiempo Estimado: ${totalTime} días`, 10, yOffset);
+    doc.text(`Estimated Time: ${totalTime} days`, 10, yOffset);
 
-    doc.save('cotizacion.pdf');
+    doc.save('quotation.pdf');
 }
 
 function exportToExcel() {
@@ -717,51 +938,58 @@ function exportToExcel() {
         layouts: document.querySelector('#layouts').value,
         informative: document.querySelector('#informative').value,
         interactive: document.querySelector('#interactive').value,
-        api: document.querySelector('#api').value
+        api: document.querySelector('#api').value,
+        modal: document.querySelector('#modal').value
     };
 
     const descriptions = {
         inputs: {
             title: "Inputs",
-            desc: "Un input es un campo donde los usuarios pueden ingresar información. Por ejemplo: formularios de contacto, campos de búsqueda, o formularios de registro.",
+            desc: "An input is a field where users can enter information. For example: contact forms, search fields, or registration forms.",
             cost: 50,
             time: 2
         },
         outputs: {
             title: "Outputs",
-            desc: "Un output es cualquier información que el sistema muestra al usuario, como resultados de búsqueda, listados o reportes.",
+            desc: "An output is any information that the system displays to the user, such as search results, listings, or reports.",
             cost: 60,
             time: 2
         },
         layouts: {
             title: "Layouts",
-            desc: "Un layout es el diseño y estructura visual de una página. Cada sección diferente de tu sitio puede requerir un layout distinto.",
+            desc: "A layout is the design and visual structure of a page. Each different section of your site may require a distinct layout.",
             cost: 100,
             time: 2
         },
         informative: {
-            title: "Páginas Informativas",
-            desc: "Páginas que muestran información estática como 'Acerca de', 'Servicios', o 'Contacto'.",
+            title: "Informative Pages",
+            desc: "Pages that display static information such as 'About', 'Services', or 'Contact'.",
             cost: 150,
             time: 2
         },
         interactive: {
-            title: "Páginas Interactivas",
-            desc: "Páginas donde los usuarios pueden interactuar, como formularios, calendarios o sistemas de reserva.",
+            title: "Interactive Pages",
+            desc: "Pages where users can interact, such as forms, calendars, or booking systems.",
             cost: 200,
             time: 2
         },
         api: {
-            title: "Integración de APIs",
-            desc: "Una API permite que tu sitio se conecte con otros servicios. Por ejemplo, pagos en línea, mapas, o redes sociales.",
+            title: "API Integration",
+            desc: "An API allows your site to connect with other services. For example, online payments, maps, or social networks.",
             cost: 300,
+            time: 2
+        },
+        modal: {
+            title: "Modal Window Integration",
+            desc: "A modal window is a pop-up window that overlays the main content of the page. It is used to display additional information or perform actions without leaving the current page.",
+            cost: 150,
             time: 2
         }
     };
 
     const data = [
-        ['Cotización del Proyecto', '', '', ''],
-        ['Item', 'Cantidad', 'Costo', 'Tiempo'],
+        ['Project Quotation', '', '', ''],
+        ['Item', 'Quantity', 'Cost', 'Time'],
     ];
 
     Object.entries(formData).forEach(([key, value]) => {
@@ -770,19 +998,28 @@ function exportToExcel() {
                 descriptions[key].title,
                 value,
                 `$${descriptions[key].cost * value}`,
-                `${descriptions[key].time * value} días`
+                `${descriptions[key].time * value} days`
             ]);
             data.push([descriptions[key].desc, '', '', '']);
         }
     });
 
     data.push(['', '', '', '']);
-    data.push(['Costo Total', '', `$${totalCost}`, '']);
-    data.push(['Tiempo Estimado', '', `${totalTime} días`, '']);
+    data.push(['Total Cost', '', `$${totalCost}`, '']);
+    data.push(['Estimated Time', '', `${totalTime} days`, '']);
 
     const ws = XLSX.utils.aoa_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Cotización');
+    XLSX.utils.book_append_sheet(wb, ws, 'Quotation');
 
-    XLSX.writeFile(wb, 'cotizacion.xlsx');
+    XLSX.writeFile(wb, 'quotation.xlsx');
+}
+
+function showExportSuccessAlert(format) {
+    Swal.fire({
+        title: 'Success!',
+        text: `The file has been successfully exported in ${format} format.`,
+        icon: 'success',
+        confirmButtonText: 'Understood'
+    });
 }

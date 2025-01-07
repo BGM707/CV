@@ -1,33 +1,53 @@
+/* Estilos para las flechas del carrusel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    color: var(--color-blue-text); /* Cambia el color de la flecha */
+    transition: transform 0.3s ease, color 0.3s ease; /* Agrega una transición suave */
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    transform: scale(1.2); /* Aumenta el tamaño de la flecha al pasar el cursor */
+    color: var(--color-red-text); /* Cambia el color de la flecha al pasar el cursor */
+}
+
+/* Resto de tu código CSS */
 :root {
-    --primary-color: #316fc0;
-    --secondary-color: #b1bccb;
-    --accent-color: #ff3b30;
-    --text-color: #f0f1f2;
-    --color-blue: #007bff;
-    --color-green: #28a745;
-    --color-red: #dc3545;
-    --color-yellow: #ffc107;
-    --color-purple: #6f42c1;
-    --color-blue-light: #cce5ff;
-    --color-green-light: #90ee90;
-    --color-red-light: #ffb6c1;
-    --color-yellow-light: #fff59d;
-    --color-purple-light: #e0bbe4;
-    --color-blue-dark: #0056b3;
-    --color-green-dark: #1b753c;
-    --color-red-dark: #cc0000;
-    --color-yellow-dark: #ff8c00;
-    --color-purple-dark: #4a235a;
+    --primary-color:  linear-gradient(135deg, #ffffff, #4a919d);
+    --secondary-color: linear-gradient(135deg, #b1bccb, #345d8e);
+    --accent-color: linear-gradient(135deg, #feeceb, #e60000);
+    --text-color: #000000; /* Negro */
+    --color-blue: linear-gradient(135deg, #d8e2ec, #0056b3);
+    --color-green: linear-gradient(135deg, #76aa82, #1b753c);
+    --color-red: linear-gradient(135deg, #dc3545, #cc0000);
+    --color-yellow: linear-gradient(135deg, #ffc107, #ff8c00);
+    --color-purple: linear-gradient(135deg, #9b7dd2, #4a235a);
+    --color-blue-light: linear-gradient(135deg, #cce5ff, #99c2e6);
+    --color-green-light: linear-gradient(135deg, #90ee90, #6cc26c);
+    --color-red-light: linear-gradient(135deg, #ffb6c1, #ff8c99);
+    --color-yellow-light: linear-gradient(135deg, #fff59d, #e1a500);
+    --color-purple-light: linear-gradient(135deg, #e0bbe4, #c01a8e);
+    --color-blue-dark: linear-gradient(135deg, #687b8f, #003d80);
+    --color-green-dark: linear-gradient(135deg, #a6aea9, #115229);
+    --color-red-dark: linear-gradient(135deg, #e7b6b6, #990000);
+    --color-yellow-dark: linear-gradient(135deg, #f7d6ac, #e67300);
+    --color-purple-dark: linear-gradient(135deg, #4a235a, #33173d);
     --color-blue-text: #00008b;
     --color-green-text: #006400;
     --color-red-text: #8b0000;
     --color-yellow-text: #8b8b00;
     --color-purple-text: #4b0082;
-    --color-blue-bg: #add8e6;
-    --color-green-bg: #98fb98;
-    --color-red-bg: #ffb6c1;
-    --color-yellow-bg: #fffacd;
-    --color-purple-bg: #e6e6fa;
+    --color-blue-bg: linear-gradient(135deg, #add8e6, #80b3d3);
+    --color-green-bg: linear-gradient(135deg, #98fb98, #6cc26c);
+    --color-red-bg: linear-gradient(135deg, #ffb6c1, #ff8c99);
+    --color-yellow-bg: linear-gradient(135deg, #fffacd, #ffd76c);
+    --color-purple-bg: linear-gradient(135deg, #e6e6fa, #c28eb2);
+    --font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+body.dark-theme {
+    --primary-color: #000000; /* Negro */
+    --text-color: #ffffff; /* Blanco */
 }
 
 * {
@@ -38,10 +58,11 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-family);
     color: var(--text-color);
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     line-height: 1.6;
+    margin-bottom: 80px; /* Ajusta el margen inferior según la altura del footer */
 }
 
 /* Loader Styles */
@@ -54,10 +75,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(91, 184, 194, 0.9);
     color: var(--primary-color);
     z-index: 9999;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-family);
     text-align: center;
     flex-direction: column;
     animation: fadeIn 0.5s ease-out;
@@ -65,7 +86,7 @@ body {
 
 .loader-content {
     max-width: 90%;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -107,9 +128,13 @@ body {
 
 /* Navbar Styles */
 .navbar {
-    background-color: rgba(63, 132, 222, 0.95) !important;
+    background: var(--primary-color) !important;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navbar.scrolled {
@@ -130,7 +155,7 @@ body {
     height: 2px;
     bottom: 0;
     left: 50%;
-    background-color: var(--accent-color);
+    background: var(--accent-color);
     transition: all 0.3s ease;
 }
 
@@ -138,13 +163,14 @@ body {
     width: 100%;
     left: 0;
 }
+
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: var(--primary-color);
     position: relative;
     overflow: hidden;
 }
@@ -160,11 +186,8 @@ body {
     z-index: 0;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    transition: filter 0.3s ease;
-}
-
-.hero-video:hover {
-    filter: brightness(70%);
+    opacity: 0.3; /* Ajusta la opacidad del video */
+    pointer-events: none; /* Desactiva la interacción con el video */
 }
 
 .hero-content {
@@ -207,18 +230,21 @@ body {
     transform: translateY(30px);
     animation: fadeInUp 0.8s ease 0.2s forwards; /* Animación más rápida */
 }
+
 /* Card Styles */
 .card {
-    background-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.8);
     border: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .card-body {
@@ -228,16 +254,17 @@ body {
 .card-title {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
+    color: var(--text-color);
 }
 
 .card-text {
     font-size: 1rem;
-    color: #6c757d;
+    color: var(--text-color);
 }
 
 /* Button Styles */
 .btn-custom {
-    background-color: var(--accent-color);
+    background: var(--accent-color);
     color: white;
     padding: 0.8rem 2rem;
     border-radius: 30px;
@@ -246,7 +273,7 @@ body {
 }
 
 .btn-custom:hover {
-    background-color: #ff574f;
+    background: var(--color-red-dark);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
 }
@@ -256,6 +283,7 @@ body {
     position: relative;
     display: inline-block;
     margin-bottom: 3rem;
+    color: var(--text-color);
 }
 
 .section-title::after {
@@ -263,7 +291,7 @@ body {
     position: absolute;
     width: 50%;
     height: 3px;
-    background-color: var(--accent-color);
+    background: var(--accent-color);
     bottom: -10px;
     left: 25%;
 }
@@ -276,19 +304,19 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: rgba(0, 148, 254, 0.926);
+    background: rgba(0, 148, 254, 0.926);
     margin: 0 0.5rem;
     transition: all 0.3s ease;
 }
 
 .social-icons a:hover {
-    background-color: var(--accent-color);
+    background: var(--accent-color);
     transform: translateY(-3px);
 }
 
 /* Contact Form */
 .contact-form .form-control {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--text-color);
     padding: 1rem;
@@ -296,7 +324,7 @@ body {
 }
 
 .contact-form .form-control:focus {
-    background-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     box-shadow: none;
     border: 1px solid var(--accent-color);
 }
@@ -329,7 +357,7 @@ body {
 }
 
 .modal-content {
-    background: white;
+    background: var(--primary-color);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -353,7 +381,7 @@ body {
 }
 
 .modal-content .form-control {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--primary-color);
     color: var(--text-color);
     padding: 1rem;
@@ -365,13 +393,13 @@ body {
 }
 
 .modal-content .form-control:focus {
-    background-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     box-shadow: none;
     border: 1px solid var(--accent-color);
 }
 
 .modal-content .btn-custom {
-    background-color: var(--accent-color);
+    background: var(--accent-color);
     color: white;
     padding: 0.8rem 2rem;
     border-radius: 30px;
@@ -385,7 +413,7 @@ body {
 }
 
 .modal-content .btn-custom:hover {
-    background-color: #ff574f;
+    background: #ff574f;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
 }
@@ -431,7 +459,7 @@ body {
 }
 
 .color-palette-modal .modal-content {
-    background: white;
+    background: var(--primary-color);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -450,18 +478,19 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 20px; /* Aumenta el espacio entre los elementos */
 }
 
 .color-palette-modal .color-option {
-    width: 100px;
-    height: 100px;
+    width: 120px; /* Aumenta el tamaño de los elementos */
+    height: 120px; /* Aumenta el tamaño de los elementos */
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para mejorar la visibilidad */
 }
 
 .color-palette-modal .color-option:hover {
@@ -471,7 +500,7 @@ body {
 /* Scroll to Top Button Styles */
 .scroll-to-top {
     position: fixed;
-    bottom: 20px;
+    bottom: 80px; /* Ajusta la posición para que no se solape con el footer */
     right: 20px;
     width: 50px;
     height: 50px;
@@ -485,6 +514,7 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background 0.3s;
+    z-index: 1000; /* Asegúrate de que esté por encima del footer */
 }
 
 .scroll-to-top.show {
@@ -499,29 +529,29 @@ body {
 
 /* Dark Theme Styles */
 .dark-theme {
-    background-color: #121212;
+    background: #121212;
     color: #e0e0e0;
 }
 
 .dark-theme .navbar {
-    background-color: rgba(0, 0, 0, 0.8) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
 }
 
 .dark-theme .card {
-    background-color: rgba(246, 0, 0, 0.986);
+    background: rgba(246, 0, 0, 0.986);
 }
 
 .dark-theme .contact-form .form-control {
-    background-color: rgba(246, 241, 241, 0.945);
+    background: rgba(246, 241, 241, 0.945);
     color: #e0e0e0;
 }
 
 .dark-theme .btn-custom {
-    background-color: #ff3b30;
+    background: #ff3b30;
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+@container (min-width: 768px) {
     .hero-title {
         font-size: 2.5rem;
     }
@@ -580,7 +610,7 @@ body {
     }
 }
 
-@media (max-width: 576px) {
+@container (min-width: 576px) {
     .nav-link {
         margin: 0.25rem 0;
     }
@@ -636,7 +666,7 @@ body {
     }
 }
 
-@media (max-width: 480px) {
+@container (min-width: 480px) {
     .whatsapp-float {
         width: 55px;
         height: 55px;
@@ -655,15 +685,15 @@ body {
     position: fixed;
     width: 65px;
     height: 65px;
-    bottom: 40px;
+    bottom: 120px; /* Ajusta la posición para que no se solape con el footer */
     left: 40px;
-    background-color: #25d366;
+    background: #25d366;
     color: #FFF;
     border-radius: 50px;
     text-align: center;
     font-size: 35px;
     box-shadow: 2px 2px 3px #999;
-    z-index: 100;
+    z-index: 1000; /* Asegúrate de que esté por encima del footer */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -683,10 +713,10 @@ body {
     left: 80px;
     background: var(--primary-color);
     color: white;
-    padding: 10px 15px;
+    padding: 10px 280px;
     border-radius: 8px;
     font-size: 14px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-family);
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
@@ -713,4 +743,45 @@ body {
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
     }
+}
+
+/* Footer Styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(151, 172, 200, 0.95);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem 0;
+    z-index: 1; /* Ajusta el z-index para que no tape otros elementos */
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.5rem;
+}
+
+/* Scroll Timeline Animation */
+@scroll-timeline scroll-timeline {
+    source: auto;
+    orientation: block;
+    scroll-offsets: 0% 100%;
+}
+
+@keyframes scroll-animation {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scroll-animated {
+    animation: scroll-animation 1s ease-out;
+    animation-timeline: scroll-timeline;
 }
