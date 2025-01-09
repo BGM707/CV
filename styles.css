@@ -3,20 +3,23 @@
 .carousel-control-next-icon {
     color: var(--color-blue-text); /* Cambia el color de la flecha */
     transition: transform 0.3s ease, color 0.3s ease; /* Agrega una transición suave */
-}
+    filter: drop-shadow(2px 2px 4px rgba(23, 23, 23, 0.779)); /* Agrega una sombra */
+
+
+
+}   
 
 .carousel-control-prev-icon:hover,
 .carousel-control-next-icon:hover {
-    transform: scale(1.2); /* Aumenta el tamaño de la flecha al pasar el cursor */
-    color: var(--color-red-text); /* Cambia el color de la flecha al pasar el cursor */
+    transform: scale(4.2); /* Aumenta el tamaño de la flecha al pasar el cursor */
+    color: black; 
 }
 
-/* Resto de tu código CSS */
 :root {
     --primary-color:  linear-gradient(135deg, #ffffff, #4a919d);
     --secondary-color: linear-gradient(135deg, #b1bccb, #345d8e);
     --accent-color: linear-gradient(135deg, #feeceb, #e60000);
-    --text-color: #000000; /* Negro */
+    --text-color: #000000; 
     --color-blue: linear-gradient(135deg, #d8e2ec, #0056b3);
     --color-green: linear-gradient(135deg, #76aa82, #1b753c);
     --color-red: linear-gradient(135deg, #dc3545, #cc0000);
